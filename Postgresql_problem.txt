@@ -1,0 +1,257 @@
+1.Create a table employee, with the following fields and constraints added to each field
+    .id (primary key)
+    .name (not null)
+    .department (like marketing, sales, development, testing, devops etc) (not null)
+    .branch (use any city name)  (a null field)
+    .salary ( a five-digit value) ( a not null field with default value 0)
+    
+Ans)create table employee(id serial primary key, name varchar(50) NOT NULL, department varchar(50) NOT NULL, branch varchar(50) NULL, salary  NUMERIC(5, 2) NOT NULL DEFAULT 0);
+
+Table "public.employee"
+   Column   |         Type          | Collation | Nullable |               Default
+------------+-----------------------+-----------+----------+--------------------------------------
+ id         | integer               |           | not null | nextval('employee_id_seq'::regclass)
+ name       | character varying(50) |           | not null |
+ department | character varying(50) |           |          |
+ branch     | character varying(50) |           |          |
+ salary     | numeric(5,0)          |           | not null | 0
+ 
+2.Insert at least 10 records into the employee table with relevant data.
+
+Ans)INSERT INTO employee(name, department, branch, salary) values('kevin', 'sales', 'Being', 44000), ('levin', 'marketing', 'Tokyo', 45000.00), ('lembard', 'marketing', 'New York', 70000.00), ('christo', 'devops', 'london', 55000),('fasu', 'testing', 'delhi', 65000),('swarag', 'testing', 'kochi', 52000),('sona', 'sales', 'mumbai', 41000),('aiswarya', 'testing', 'paris', 58000),('lechu', 'marketing', 'toronto', 38000),('joprin', 'devops', 'chicago', 41000);
+
+
+id |   name   | department |  branch  | salary 
+----+----------+------------+----------+--------
+  1 | levin    | marketing  | Tokyo    |  45000
+  2 | lembard  | marketing  | New York |  70000
+  3 | kevin    | sales      | Being    |  44000
+  4 | christo  | devops     | london   |  55000
+  5 | fasu     | testing    | delhi    |  65000
+  6 | swarag   | testing    | kochi    |  52000
+  7 | sona     | sales      | mumbai   |  41000
+  8 | aiswarya | testing    | paris    |  58000
+  9 | lechu    | marketing  | toronto  |  38000
+ 10 | joprin   | devops     | chicago  |  41000
+(10 rows)
+
+3.Add the field email, and phone_number with null constraint. (Phone Number can be a string)
+
+Ans)
+1:ALTER TABLE employee ADD column email varchar(50) NULL unique; 
+ALTER TABLE
+2:ALTER TABLE employee ADD column phone_number varchar(30) NULL; 
+ALTER TABLE
+
+id |   name   | department |  branch  | salary | email | phone_number 
+----+----------+------------+----------+--------+-------+--------------
+  1 | levin    | marketing  | Tokyo    |  45000 |       | 
+  2 | lembard  | marketing  | New York |  70000 |       | 
+  3 | kevin    | sales      | Being    |  44000 |       | 
+  4 | christo  | devops     | london   |  55000 |       | 
+  5 | fasu     | testing    | delhi    |  65000 |       | 
+  6 | swarag   | testing    | kochi    |  52000 |       | 
+  7 | sona     | sales      | mumbai   |  41000 |       | 
+  8 | aiswarya | testing    | paris    |  58000 |       | 
+  9 | lechu    | marketing  | toronto  |  38000 |       | 
+ 10 | joprin   | devops     | chicago  |  41000 |       | 
+(10 rows)
+
+4.Modify the field salary to remove default constraints added to it.
+
+Ans)ALTER TABLE employee 
+
+ALTER COLUMN salary DROP DEFAULT;
+ALTER TABLE
+                                    Table "public.employee"
+    Column    |         Type          | Collation | Nullable |               Default                
+--------------+-----------------------+-----------+----------+--------------------------------------
+ id           | integer               |           | not null | nextval('employee_id_seq'::regclass)
+ name         | character varying(50) |           | not null | 
+ department   | character varying(50) |           | not null | 
+ branch       | character varying(50) |           |          | 
+ salary       | numeric(5,0)          |           | not null | 
+ email        | character varying(50) |           |          | 
+ phone_number | character varying(30) |           |          | 
+Indexes:
+    "employee_pkey" PRIMARY KEY, btree (id)
+    "employee_email_key" UNIQUE CONSTRAINT, btree (email)
+    
+5.Update the fields phone_number and email for the employee having a salary between 10100 and 50045 and their department should be either marketing or testing.
+
+Ans)UPDATE employee SET email = 'lechu22@gmail.com' , phone_number = '7736583662' WHERE salary BETWEEN 10100 AND 50045 AND department IN ('marketing', 'testing');
+
+id |   name   | department |  branch  | salary |       email       | phone_number 
+----+----------+------------+----------+--------+-------------------+--------------
+  2 | lembard  | marketing  | New York |  70000 |                   | 
+  3 | kevin    | sales      | Being    |  44000 |                   | 
+  4 | christo  | devops     | london   |  55000 |                   | 
+  5 | fasu     | testing    | delhi    |  65000 |                   | 
+  6 | swarag   | testing    | kochi    |  52000 |                   | 
+  7 | sona     | sales      | mumbai   |  41000 |                   | 
+  8 | aiswarya | testing    | paris    |  58000 |                   | 
+ 10 | joprin   | devops     | chicago  |  41000 |                   | 
+  9 | lechu    | marketing  | toronto  |  38000 | lechu22@gmail.com | 7736583662
+  1 | levin    | marketing  | Tokyo    |  45000 | lechu22@gmail.com | 7736583662
+(10 rows)
+6.Update email for the rest of the employees.
+
+Ans)UPDATE employee SET email = 'james39@gmail.com' WHERE id = 10;
+
+id |   name   | department |  branch  | salary |         email          | phone_number 
+----+----------+------------+----------+--------+------------------------+--------------
+  9 | lechu    | marketing  | toronto  |  38000 | lechu22@gmail.com      | 7736583662
+  4 | christo  | devops     | london   |  55000 | christoaj466@gmail.com | 
+  3 | kevin    | sales      | Being    |  44000 | kevin789@gmail.com     | 
+  8 | aiswarya | testing    | paris    |  58000 | aiswarya142@gmail.com  | 
+  5 | fasu     | testing    | delhi    |  65000 | fasu40@gmail.com       | 
+  6 | swarag   | testing    | kochi    |  52000 | swarag72@gmail.com     | 
+  7 | sona     | sales      | mumbai   |  41000 | sona01@gmail.com       | 
+  2 | lembard  | marketing  | New York |  70000 | lembard89@gmail.com    | 
+ 10 | joprin   | devops     | chicago  |  41000 | james39@gmail.com      | 
+  1 | levin    | marketing  | Tokyo    |  45000 | levin32@gmail.com      | 7736583662
+(10 rows)
+
+7.Modify the field email to add a UNIQUE constraint to it.
+
+Ans)ALTER TABLE employee ADD CONSTRAINT unique_email UNIQUE(email);
+
+                                    Table "public.employee"
+    Column    |         Type          | Collation | Nullable |               Default                
+--------------+-----------------------+-----------+----------+--------------------------------------
+ id           | integer               |           | not null | nextval('employee_id_seq'::regclass)
+ name         | character varying(50) |           | not null | 
+ department   | character varying(50) |           | not null | 
+ branch       | character varying(50) |           |          | 
+ salary       | numeric(5,0)          |           | not null | 
+ email        | character varying(50) |           |          | 
+ phone_number | character varying(30) |           |          | 
+Indexes:
+    "employee_pkey" PRIMARY KEY, btree (id)
+    "unique_email" UNIQUE CONSTRAINT, btree (email)
+    
+8.Select all the employees
+
+Ans)SELECT * FROM employee;
+
+id |   name   | department |  branch  | salary |         email          | phone_number 
+----+----------+------------+----------+--------+------------------------+--------------
+  9 | lechu    | marketing  | toronto  |  38000 | lechu22@gmail.com      | 7736583662
+  4 | christo  | devops     | london   |  55000 | christoaj466@gmail.com | 
+  3 | kevin    | sales      | Being    |  44000 | kevin789@gmail.com     | 
+  8 | aiswarya | testing    | paris    |  58000 | aiswarya142@gmail.com  | 
+  5 | fasu     | testing    | delhi    |  65000 | fasu40@gmail.com       | 
+  6 | swarag   | testing    | kochi    |  52000 | swarag72@gmail.com     | 
+  7 | sona     | sales      | mumbai   |  41000 | sona01@gmail.com       | 
+  2 | lembard  | marketing  | New York |  70000 | lembard89@gmail.com    | 
+ 10 | joprin   | devops     | chicago  |  41000 | james39@gmail.com      | 
+  1 | levin    | marketing  | Tokyo    |  45000 | levin32@gmail.com      | 7736583662
+(10 rows)
+
+9.Select id, name, email from employees having a salary greater than or equal to 45000, the department should contain the string ‘maRKeT’, and the branch can be ‘Being’, ‘Tokyo’ or ‘New York’.
+Select only the first 5 records in the descending order of salary. (You can add new records into the employee table if necessary)
+
+Ans)SELECT id, name, email FROM employee WHERE salary >=45000 AND department ILIKE 'maRKeT%' AND branch IN ('Being', 'Tokyo', 'New York') ORDER BY salary desc limit 5;
+
+id |  name   |        email        
+----+---------+---------------------
+  2 | lembard | lembard89@gmail.com
+  3 | kevin   | kevin789@gmail.com
+  5 | fasu    | fasu40@gmail.com
+  9 | lechu   | lechu22@gmail.com
+  1 | levin   | levin32@gmail.com
+(5 rows)
+
+10.Select all the employees having phone_number null;
+
+Ans)SELECT * from employee WHERE phone_number is null;
+
+id |   name   | department |  branch  | salary |         email          | phone_number 
+----+----------+------------+----------+--------+------------------------+--------------
+  4 | christo  | devops     | london   |  55000 | christoaj466@gmail.com | 
+  8 | aiswarya | testing    | paris    |  58000 | aiswarya142@gmail.com  | 
+  6 | swarag   | testing    | kochi    |  52000 | swarag72@gmail.com     | 
+  7 | sona     | sales      | mumbai   |  41000 | sona01@gmail.com       | 
+  2 | lembard  | marketing  | New York |  70000 | lembard89@gmail.com    | 
+ 10 | joprin   | devops     | chicago  |  41000 | james39@gmail.com      | 
+  5 | fasu     | marketing  | Being    |  65000 | fasu40@gmail.com       | 
+  3 | kevin    | marketing  | Being    |  67000 | kevin789@gmail.com     | 
+(8 rows)
+
+11.Find the no. of employees in each department with a count greater than 3. Display in the ascending order of the department.
+
+Ans)SELECT department , COUNT(name) FROM employee GROUP BY department having count(name) > 3 order by department; 
+
+department | count 
+------------+-------
+ marketing  |     5
+(1 row)
+
+12.Find the maximum, minimum, and average salary in each department.
+
+Ans)SELECT max(salary), min(salary) , avg(salary) FROM employee group by department;
+
+department |  max  |  min  |        avg         
+------------+-------+-------+--------------------
+ devops     | 55000 | 41000 | 48000.000000000000
+ testing    | 58000 | 52000 | 55000.000000000000
+ marketing  | 70000 | 45000 | 59200.000000000000
+ sales      | 41000 | 41000 | 41000.000000000000
+(4 rows)
+
+13.Find distinct emails from the employee table.
+
+Ans)SELECT DISTINCT(email) FROM employee;
+
+        email          
+------------------------
+ fasu40@gmail.com
+ levin32@gmail.com
+ lembard89@gmail.com
+ james39@gmail.com
+ swarag72@gmail.com
+ lechu22@gmail.com
+ christoaj466@gmail.com
+ sona01@gmail.com
+ kevin789@gmail.com
+ aiswarya142@gmail.com
+(10 rows)
+
+14.Find the no. of employees in each department whose name starts with the letter ‘L’.
+
+Ans)SELECT department, COUNT(name)FROM employee WHERE name ILIKE 'L%' group by department;
+
+department | count 
+------------+-------
+ marketing  |     3
+(1 row)
+15.Find the no. of employees, no. of employees with phone_number in each city.
+
+Ans)SELECT branch,count(*) as count_of_employee, count(phone_number) as employees_with_phonenumber from employee group by branch having count(phone_number) > 0; 
+
+branch | count_of_employee | employees_with_phonenumber 
+--------+-------------------+----------------------------
+ Tokyo  |                 2 |                          2
+(1 row)
+
+16.Delete the employee records with no phone_number and should belong to the city ‘Tokyo’.
+
+Ans)DELETE from employee where phone_number is null AND branch = 'Tokyo';
+
+id |   name   | department |  branch  | salary |         email         | phone_number 
+----+----------+------------+----------+--------+-----------------------+--------------
+  8 | aiswarya | testing    | paris    |  58000 | aiswarya142@gmail.com | 
+  6 | swarag   | testing    | kochi    |  52000 | swarag72@gmail.com    | 
+  7 | sona     | sales      | mumbai   |  41000 | sona01@gmail.com      | 
+  2 | lembard  | marketing  | New York |  70000 | lembard89@gmail.com   | 
+ 10 | joprin   | devops     | chicago  |  41000 | james39@gmail.com     | 
+  9 | lechu    | marketing  | Tokyo    |  49000 | lechu22@gmail.com     | 7736583662
+  5 | fasu     | marketing  | Being    |  65000 | fasu40@gmail.com      | 
+  3 | kevin    | marketing  | Being    |  67000 | kevin789@gmail.com    | 
+  1 | levin    | marketing  | mumbai   |  45000 | levin32@gmail.com     | 7736583662
+(9 rows)
+
+
+
+
+
